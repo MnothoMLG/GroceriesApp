@@ -1,0 +1,99 @@
+{
+  "common": {
+    "addToCart": "Add to cart",
+    "available": "Available",
+    "currencySymbol": "R",
+    "deleteShort": "Del",
+    "email": "Email",
+    "full_name": "Full Name",
+    "freshGroceries": "Fresh groceries",
+    "goBack": "Go back",
+    "learnMore": "Learn More",
+    "noResults": "Looks a bit empty here",
+    "oneItem": "1 item",
+    "outOfStock": "Out of stock",
+    "readyToday": "Ready today",
+    "refresh": "Refresh",
+    "remove": "Remove",
+    "submit": "Submit",
+    "checkout": "Checkout",
+    "Ok": "Proceed",
+    "wait": "Please wait..."
+  },
+  "accessibility": {
+    "addProductToCart": "Add {productName} to cart",
+    "decreaseQuantity": "Decrease quantity",
+    "increaseQuantity": "Increase quantity",
+    "removeProductFromCart": "Remove {productName} from cart",
+    "selectDeliveryAddress": "Select delivery address"
+  },
+  "cart": {
+    "deliveryAddress": "Delivery Address",
+    "deliveryDistance": "2.5 km away from your location",
+    "deliveryLine": "22 Acacia Street, Noordwyk, GP 1687",
+    "deliveryTitle": "My Living Space Co.",
+    "emptyDescription": "Add groceries from the shop and they will appear here.",
+    "emptyTitle": "Your cart is empty",
+    "items": "Items",
+    "paymentSummary": "Payment Summary",
+    "proceed": "Proceed to Checkout",
+    "proceedWithTotal": "Proceed to Checkout {total}",
+    "startShopping": "Start Shopping",
+    "subtotal": "Subtotal",
+    "deliveryFee": "Delivery fee",
+    "deliveryDiscount": "Delivery discount",
+    "total": "Total",
+    "checkoutToastTitle": "That's all for today",
+    "checkoutToastMessage": "We got it from here",
+    "freeDelivery": "🎉 You're eligible for FREE delivery!",
+    "freeDeliveryProgress": "Add {amount} more for free delivery",
+    "freeDeliveryUnlocked": "Free delivery unlocked",
+    "healthCoachCta": "Get tips",
+    "healthCoachEmpty": "No tips available for this basket yet.",
+    "healthCoachRefresh": "Refresh health coach tips",
+    "healthCoachSubtitle": "Personalised tips for your basket",
+    "healthCoachTitle": "AI Health Coach",
+    "thresholdReached": "Your basket has reached R10.00 and delivery is on us!",
+    "topUp": "Add {amount} to checkout"
+  },
+  "product": {
+    "addToCart": "Add to cart",
+    "availableCount": "{count} available",
+    "aiSummary": "AI Summary",
+    "benefits": "Benefits",
+    "descriptionFallback": "{productName} is ready to add to your grocery basket.",
+    "healthLabel": "Health Label",
+    "loadError": "Sorry, we could not load products",
+    "loadErrorGeneric": "An error occurred getting data",
+    "price": "Price",
+    "search": "Search for groceries",
+    "servingIdeas": "Serving Ideas",
+    "stock": "Stock",
+    "storageTip": "Storage Tip",
+    "thisProduct": "This product",
+    "unit": "Unit"
+  },
+  "shop": {
+    "addressToastMessage": "Use this one for now",
+    "addressToastTitle": "Coming soon",
+    "deliverTo": "Deliver to",
+    "search": "Search for groceries",
+    "searching": "Searching...",
+    "categories": {
+      "all": "All",
+      "bakery": "Bakery",
+      "dairy": "Dairy",
+      "pantry": "Pantry",
+      "produce": "Produce",
+      "protein": "Protein"
+    }
+  },
+  "tabs": {
+    "cart": "My Cart",
+    "shop": "Shop"
+  },
+  "errors": {
+    "fallbackTitle": "Oops, something bad happened!",
+    "tryAgain": "Try again"
+  }
+}

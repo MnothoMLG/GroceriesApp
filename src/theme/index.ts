@@ -1,0 +1,20 @@
+//for now it's just theme light
+export const colors = {
+  black: "#000000",
+  grey: "#aeafaf",
+  borderGreyDark: "#B1B1B1",
+  grey70: "rgb(83, 83, 83)",
+  textGrey: "#A2A2A2",
+  borderGrey: "#D9D9D9",
+  lightBrownish: "#FFF9E9",
+  success: "#57BD87",
+  danger: "#ed1a1a",
+  primary: "#158181",
+  primary10: "rgba(21, 129, 129, 0.1)",
+  primary70: "rgba(21, 129, 129, 0.7)",
+  teal: "#d5faf5",
+  transparent: "transparent",
+  white: "#FFFFFF",
+  dark: "#151515",
+  grey100: "#1A1A1A",
+};

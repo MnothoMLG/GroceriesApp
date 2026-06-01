@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Apples",
+    "price": 1.2,
+    "quantity_available": 150,
+    "image": "https://placehold.co/200x200/png?text=apples"
+  },
+  {
+    "name": "Bananas",
+    "price": 0.3,
+    "quantity_available": 200,
+    "image": "https://placehold.co/200x200/png?text=bananas"
+  },
+  {
+    "name": "Carrots",
+    "price": 0.89,
+    "quantity_available": 0,
+    "image": "https://placehold.co/200x200/png?text=carrots"
+  },
+  {
+    "name": "Bread",
+    "price": 2.5,
+    "quantity_available": 90,
+    "image": "https://placehold.co/200x200/png?text=bread"
+  },
+  {
+    "name": "Chicken Breast",
+    "price": 5.0,
+    "quantity_available": 75,
+    "image": "https://placehold.co/200x200/png?text=chicken"
+  },
+  {
+    "name": "Milk",
+    "price": 1.5,
+    "quantity_available": 0,
+    "image": "https://placehold.co/200x200/png?text=milk"
+  },
+  {
+    "name": "Eggs",
+    "price": 3.0,
+    "quantity_available": 100,
+    "image": "https://placehold.co/200x200/png?text=eggs"
+  },
+  {
+    "name": "Cheese",
+    "price": 4.25,
+    "quantity_available": 95,
+    "image": "https://placehold.co/200x200/png?text=cheese"
+  },
+  {
+    "name": "Butter",
+    "price": 2.75,
+    "quantity_available": 80,
+    "image": "https://placehold.co/200x200/png?text=butter"
+  },
+  {
+    "name": "Yogurt",
+    "price": 0.99,
+    "quantity_available": 120,
+    "image": "https://placehold.co/200x200/png?text=yogurt"
+  },
+  {
+    "name": "Spinach",
+    "price": 1.99,
+    "quantity_available": 150,
+    "image": "https://placehold.co/200x200/png?text=spinach"
+  },
+  {
+    "name": "Tomatoes",
+    "price": 2.2,
+    "quantity_available": 140,
+    "image": "https://placehold.co/200x200/png?text=tomatoes"
+  },
+  {
+    "name": "Onions",
+    "price": 1.1,
+    "quantity_available": 160,
+    "image": "https://placehold.co/200x200/png?text=onions"
+  },
+  {
+    "name": "Potatoes",
+    "price": 0.5,
+    "quantity_available": 175,
+    "image": "https://placehold.co/200x200/png?text=potatoes"
+  },
+  {
+    "name": "Ground Beef",
+    "price": 5.5,
+    "quantity_available": 70,
+    "image": "https://placehold.co/200x200/png?text=beef"
+  },
+  {
+    "name": "Salmon Fillet",
+    "price": 8.99,
+    "quantity_available": 0,
+    "image": "https://placehold.co/200x200/png?text=salmon"
+  },
+  {
+    "name": "Rice",
+    "price": 1.89,
+    "quantity_available": 200,
+    "image": "https://placehold.co/200x200/png?text=rice"
+  },
+  {
+    "name": "Pasta",
+    "price": 1.3,
+    "quantity_available": 190,
+    "image": "https://placehold.co/200x200/png?text=pasta"
+  },
+  {
+    "name": "Olive Oil",
+    "price": 7.99,
+    "quantity_available": 85,
+    "image": "https://placehold.co/200x200/png?text=oil"
+  },
+  {
+    "name": "Cereal",
+    "price": 3.49,
+    "quantity_available": 130,
+    "image": "https://placehold.co/200x200/png?text=cereal"
+  }
+]
