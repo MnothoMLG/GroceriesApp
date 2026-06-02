@@ -115,7 +115,7 @@ const Home = () => {
           strokeWidth={2.4}
           color={selected ? colors.white : colors.primary}
         />
-        <AppText color={selected ? colors.white : colors.primary}>
+        <AppText ml={4} color={selected ? colors.white : colors.primary}>
           {t(item.labelKey)}
         </AppText>
       </TouchableOpacity>
