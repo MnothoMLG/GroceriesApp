@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import MyCart from ".";
 import {
   addProductToCart,
+  clearCart,
   decrementProductInCart,
   removeProductFromCart,
 } from "@store/actions";
@@ -40,6 +41,9 @@ jest.mock("@store/actions", () => ({
   addProductToCart: jest.fn((payload) => ({
     type: "addProductToCart",
     payload,
+  })),
+  clearCart: jest.fn(() => ({
+    type: "clearCart",
   })),
   decrementProductInCart: jest.fn((payload) => ({
     type: "decrementProductInCart",
@@ -174,6 +178,21 @@ describe("MyCart", () => {
 
     fireEvent.press(getByText("Decrease"));
     expect(decrementProductInCart).toHaveBeenCalledWith({ productId: 1 });
+  });
+
+  it("clears the cart and navigates to shop on checkout", () => {
+    (useSelector as unknown as jest.Mock).mockImplementation((selector) => {
+      if (selector === getCartItems) return [{ product: banana, quantity: 2 }];
+      if (selector === getCartTotal) return 6.3;
+    });
+
+    const { getByText } = render(<MyCart />);
+
+    fireEvent.press(getByText("Proceed to Checkout"));
+
+    expect(clearCart).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "clearCart" });
+    expect(mockNavigate).toHaveBeenCalledWith(routes.SHOP);
   });
 
   it("reveals and dispatches remove action for a cart item", () => {

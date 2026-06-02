@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import {
   StyleProp,
   StyleSheet,
@@ -10,9 +10,10 @@ import { Leaf, RefreshCw, Sparkles } from "lucide-react-native";
 import ShimmerPlaceholder from "react-native-shimmer-placeholder";
 import { LinearGradient } from "expo-linear-gradient";
 import { AppButton, Text } from "@components";
-import { ICartItem } from "@constants/types";
+import { EToastTypes, ICartItem } from "@constants/types";
 import { useBasketHealthCoach, useTranslation } from "@hooks";
 import { colors } from "@theme";
+import { showToast } from "@util";
 
 interface HealthCoachProps {
   cartItems: Array<ICartItem>;
@@ -22,13 +23,41 @@ interface HealthCoachProps {
 export const HealthCoach: FC<HealthCoachProps> = ({ cartItems, style }) => {
   const { t } = useTranslation();
   const [hasRequestedTips, setHasRequestedTips] = useState(false);
+  const lastErrorToastRef = useRef(0);
   const basket = useMemo(() => {
     return cartItems.flatMap((item) =>
       Array.from({ length: item.quantity }, () => item.product),
     );
   }, [cartItems]);
-  const { data, isLoading, isFetching, isError, refetch } =
-    useBasketHealthCoach(basket, false);
+  const {
+    data,
+    errorUpdatedAt = 0,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+  } = useBasketHealthCoach(basket, false);
+
+  useEffect(() => {
+    const errorToastKey = errorUpdatedAt || (isError ? 1 : 0);
+
+    if (
+      !hasRequestedTips ||
+      !isError ||
+      !errorToastKey ||
+      lastErrorToastRef.current === errorToastKey
+    ) {
+      return;
+    }
+
+    lastErrorToastRef.current = errorToastKey;
+    showToast({
+      title: t("cart.healthCoachErrorTitle"),
+      message: t("cart.healthCoachErrorMessage"),
+      type: EToastTypes.ERROR,
+    });
+  }, [errorUpdatedAt, hasRequestedTips, isError, t]);
+
   const loading = hasRequestedTips && (isLoading || isFetching);
   const suggestions = useMemo(() => {
     if (!data) {

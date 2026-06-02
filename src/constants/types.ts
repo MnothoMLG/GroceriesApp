@@ -19,6 +19,7 @@ export enum EButtonVariants {
   PRIMARY = "primary",
   SECONDARY = "secondary",
   TERTIARY = "tertiary",
+  LINK = "link",
 }
 
 export interface ToastConfig {
@@ -51,25 +52,17 @@ export interface ProductAiDetailsResponse {
   product: {
     name: string;
     price: number | null;
+    quantity_available: number | null;
     image: string | null;
     category: string | null;
   };
   pdp: {
-    title: string;
-    shortDescription: string;
-    aiSummary: string;
-    healthLabel: string;
-    benefits: string[];
-    servingIdeas: string[];
+    description: string;
+    badges: string[];
+    nutritionHighlights: string[];
+    servingSuggestions: string[];
     storageTip: string;
-    tags: string[];
-    disclaimer: string;
   };
-  aiImages: Array<{
-    title: string;
-    url: string;
-    prompt: string;
-  }>;
 }
 
 export interface BasketHealthResponse {

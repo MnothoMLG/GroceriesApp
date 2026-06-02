@@ -1,23 +1,12 @@
-import React, { FC, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   FlatList,
   SafeAreaView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import {
-  Apple,
-  Beef,
-  ChevronDown,
-  MapPin,
-  Milk,
-  PackageSearch,
-  ShoppingBasket,
-  Wheat,
-} from "lucide-react-native";
-import { SvgProps } from "react-native-svg";
+import { ChevronDown, MapPin } from "lucide-react-native";
 import {
   Text as AppText,
   AppButton,
@@ -34,7 +23,7 @@ import {
   fetchProductsRequest,
   GET_PRODUCTS_LOADING_KEY,
 } from "@store/actions";
-import { getAllProducts } from "@store/shop/selectors";
+import { getAllProducts, getCartItems } from "@store/shop/selectors";
 import {
   CATEGORY_OPTIONS,
   CategoryOption,
@@ -45,7 +34,13 @@ import {
   SEARCH_DEBOUNCE_MS,
 } from "@constants";
 import { colors } from "@theme";
-import { filterProducts, getProductListData, showToast } from "@util";
+import {
+  canAddProductQuantity,
+  filterProducts,
+  getCartQuantityForProduct,
+  getProductListData,
+  showToast,
+} from "@util";
 import { routes } from "@navigation/routes";
 import { useNavigation } from "@react-navigation/native";
 import { GenericMainStackScreenProps } from "@navigation/types";
@@ -56,6 +51,7 @@ const Home = () => {
   const navigation = useNavigation<GenericMainStackScreenProps<routes.PDP>>();
   const loading = useLoading(GET_PRODUCTS_LOADING_KEY);
   const products = useSelector(getAllProducts);
+  const cartItems = useSelector(getCartItems);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [debouncedSearch, setDebouncedSearch] = useState<string>("");
   const [searchLoading, setSearchLoading] = useState(false);
@@ -119,12 +115,7 @@ const Home = () => {
           strokeWidth={2.4}
           color={selected ? colors.white : colors.primary}
         />
-        <AppText
-          style={[
-            styles.categoryPillText,
-            selected ? styles.categoryPillTextActive : null,
-          ]}
-        >
+        <AppText color={selected ? colors.white : colors.primary}>
           {t(item.labelKey)}
         </AppText>
       </TouchableOpacity>
@@ -149,20 +140,42 @@ const Home = () => {
         <MapPin width={18} height={18} color={colors.primary} />
       </View>
       <View style={styles.addressCopy}>
-        <Text style={styles.addressLabel}>{t("cart.deliveryTitle")}</Text>
-        <Text style={styles.addressText} numberOfLines={1}>
+        <AppText style={styles.addressLabel}>{t("cart.deliveryTitle")}</AppText>
+        <AppText style={styles.addressText} numberOfLines={1}>
           {t("cart.deliveryLine")}
-        </Text>
+        </AppText>
       </View>
       <ChevronDown width={18} height={18} color={colors.primary} />
     </TouchableOpacity>
   );
 
+  const notifyStockLimit = (product: IProduct) => {
+    showToast({
+      title: t("product.stockLimitTitle"),
+      message: t("product.stockLimitMessage", {
+        count: product.quantity_available ?? 0,
+        productName: product.name,
+      }),
+      type: EToastTypes.ERROR,
+    });
+  };
+
+  const addProduct = (product: IProduct) => {
+    const currentQuantity = getCartQuantityForProduct(cartItems, product.id);
+
+    if (!canAddProductQuantity({ product, currentQuantity })) {
+      notifyStockLimit(product);
+      return;
+    }
+
+    dispatch(addProductToCart({ product }));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerText}>
-          <Text style={styles.headerKicker}>{t("shop.deliverTo")}</Text>
+          <AppText style={styles.headerKicker}>{t("shop.deliverTo")}</AppText>
           {renderAddressCard()}
         </View>
       </View>
@@ -214,16 +227,15 @@ const Home = () => {
               product={item}
               style={styles.productCard}
               onAddToCart={() => {
-                dispatch(addProductToCart({ product: item }));
+                addProduct(item);
               }}
               onIncrement={() => {
-                dispatch(addProductToCart({ product: item }));
+                addProduct(item);
               }}
               onDecrement={() => {
                 dispatch(decrementProductInCart({ productId: item.id }));
               }}
               onPress={() => {
-                console.log("Navigating to PDP for product:", item);
                 navigation.navigate(routes.PDP, { product: item });
               }}
             />
@@ -343,16 +355,6 @@ const styles = StyleSheet.create({
   categoryPillActive: {
     borderColor: colors.primary,
     backgroundColor: colors.primary,
-  },
-  categoryPillText: {
-    color: colors.primary,
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: "800",
-    marginLeft: 7,
-  },
-  categoryPillTextActive: {
-    color: colors.white,
   },
   searchingText: {
     color: colors.grey70,

@@ -1,6 +1,8 @@
 import {
+  canAddProductQuantity,
   filterProducts,
   formatPrice,
+  getNextProductCartQuantity,
   getProductCategory,
   getProductListData,
 } from "./index";
@@ -54,5 +56,34 @@ describe("product utilities", () => {
   it("returns placeholder rows while a product list is loading", () => {
     expect(getProductListData([apple], true)).toHaveLength(10);
     expect(getProductListData([apple], false)).toEqual([apple]);
+  });
+
+  it("checks whether a product can be added based on available stock", () => {
+    const limitedApple = { ...apple, quantity_available: 2 };
+
+    expect(
+      canAddProductQuantity({
+        product: limitedApple,
+        currentQuantity: 1,
+      }),
+    ).toBe(true);
+    expect(
+      canAddProductQuantity({
+        product: limitedApple,
+        currentQuantity: 2,
+      }),
+    ).toBe(false);
+  });
+
+  it("caps the next cart quantity at available stock", () => {
+    const limitedApple = { ...apple, quantity_available: 2 };
+
+    expect(
+      getNextProductCartQuantity({
+        product: limitedApple,
+        currentQuantity: 0,
+        quantity: 5,
+      }),
+    ).toBe(2);
   });
 });

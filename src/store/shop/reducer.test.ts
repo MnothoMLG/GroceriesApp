@@ -24,6 +24,11 @@ const bread: IProduct = {
   unit: "loaf",
 };
 
+const limitedApple: IProduct = {
+  ...apple,
+  quantity_available: 2,
+};
+
 describe("cartReducer grocery cart state", () => {
   it("stores grocery products", () => {
     const state = cartReducer(
@@ -43,6 +48,19 @@ describe("cartReducer grocery cart state", () => {
     );
 
     expect(state.cart).toEqual([{ product: apple, quantity: 3 }]);
+  });
+
+  it("does not add more than the available product quantity", () => {
+    let state = cartReducer(
+      undefined,
+      addProductToCart({ product: limitedApple, quantity: 5 }),
+    );
+
+    expect(state.cart).toEqual([{ product: limitedApple, quantity: 2 }]);
+
+    state = cartReducer(state, addProductToCart({ product: limitedApple }));
+
+    expect(state.cart).toEqual([{ product: limitedApple, quantity: 2 }]);
   });
 
   it("decrements product quantities and removes products at zero", () => {

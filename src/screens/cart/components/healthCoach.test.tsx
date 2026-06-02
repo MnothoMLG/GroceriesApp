@@ -5,6 +5,7 @@ import { HealthCoach } from "./healthCoach";
 import { ICartItem } from "@constants/types";
 
 const mockUseBasketHealthCoach = jest.fn();
+const mockShowToast = jest.fn();
 
 jest.mock("@hooks", () => ({
   useBasketHealthCoach: (...args: unknown[]) => mockUseBasketHealthCoach(...args),
@@ -13,11 +14,18 @@ jest.mock("@hooks", () => ({
       ({
         "cart.healthCoachCta": "Get tips",
         "cart.healthCoachEmpty": "No tips available for this basket yet.",
+        "cart.healthCoachErrorMessage":
+          "We could not load basket tips right now.",
+        "cart.healthCoachErrorTitle": "Health coach unavailable",
         "cart.healthCoachRefresh": "Refresh health coach tips",
         "cart.healthCoachSubtitle": "Personalised tips for your basket",
         "cart.healthCoachTitle": "AI Health Coach",
       })[key] ?? key,
   }),
+}));
+
+jest.mock("@util", () => ({
+  showToast: (...args: unknown[]) => mockShowToast(...args),
 }));
 
 jest.mock("lucide-react-native", () => {
@@ -161,6 +169,7 @@ describe("HealthCoach", () => {
   it("shows an empty state when no suggestions are returned", () => {
     mockUseBasketHealthCoach.mockReturnValue({
       data: undefined,
+      errorUpdatedAt: 12,
       isError: true,
       isFetching: false,
       isLoading: false,
@@ -172,5 +181,10 @@ describe("HealthCoach", () => {
     fireEvent.press(getByText("Get tips"));
 
     expect(getByText("No tips available for this basket yet.")).toBeTruthy();
+    expect(mockShowToast).toHaveBeenCalledWith({
+      title: "Health coach unavailable",
+      message: "We could not load basket tips right now.",
+      type: "error",
+    });
   });
 });

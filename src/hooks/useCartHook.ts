@@ -4,10 +4,17 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useProductAiDetails = (product?: IProduct) => {
   return useQuery({
-    queryKey: ["product-ai-details", product?.id, product?.name],
-    queryFn: () => getProductAiDetails(product as IProduct),
-    enabled: Boolean(product),
+    queryKey: ["product-ai-details", product?.name],
+    queryFn: () => {
+      if (!product?.name) {
+        throw new Error("Product name is required");
+      }
+
+      return getProductAiDetails(product);
+    },
+    enabled: !!product?.name,
     staleTime: 1000 * 60 * 60 * 24,
+    retry: 1,
   });
 };
 
@@ -15,15 +22,17 @@ export const useBasketHealthCoach = (basket: IProduct[], enabled = true) => {
   return useQuery({
     queryKey: [
       "basket-health",
-      basket
-        .map((item) => item.name)
-        .sort()
-        .join("|"),
+      JSON.stringify(
+        basket
+          .map((item) => ({
+            name: item.name,
+          }))
+          .sort((a, b) => a.name.localeCompare(b.name)),
+      ),
     ],
     queryFn: () => getBasketHealthSuggestions(basket),
     enabled: enabled && basket.length > 0,
     staleTime: 1000 * 60 * 30,
-    gcTime: 1000 * 60 * 60,
     retry: 1,
   });
 };

@@ -111,6 +111,7 @@ const textStyle: Record<EButtonVariants, string> = {
   [EButtonVariants.PRIMARY]: colors.white,
   [EButtonVariants.SECONDARY]: colors.primary,
   [EButtonVariants.TERTIARY]: colors.primary,
+  [EButtonVariants.LINK]: colors.primary,
 };
 
 const bodyStyle = StyleSheet.create({
@@ -136,6 +137,10 @@ const bodyStyle = StyleSheet.create({
     backgroundColor: colors.transparent,
     paddingHorizontal: 12,
   },
+  link: {
+    backgroundColor: colors.transparent,
+    paddingHorizontal: 0,
+  },
   fullWidth: {
     width: "100%",
   },
@@ -149,6 +154,7 @@ const variantBodyStyle: Record<EButtonVariants, ViewStyle> = {
   [EButtonVariants.PRIMARY]: bodyStyle.primary,
   [EButtonVariants.SECONDARY]: bodyStyle.secondary,
   [EButtonVariants.TERTIARY]: bodyStyle.tertiary,
+  [EButtonVariants.LINK]: bodyStyle.link,
 };
 
 export const AnimatedButton =

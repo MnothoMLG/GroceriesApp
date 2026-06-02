@@ -10,6 +10,7 @@ import {
 } from "./actions";
 import { GroceriesState } from "./types";
 import { ICartItem } from "@constants/types";
+import { getNextProductCartQuantity } from "@util/products";
 
 const INITIAL_STATE: GroceriesState = {
   products: [],
@@ -36,13 +37,23 @@ export const cartReducer = createReducer(INITIAL_STATE, (builder) => {
       const existingCartItem = state.cart.find(
         (item) => item.product.id === product.id,
       );
+      const currentQuantity = existingCartItem?.quantity ?? 0;
+      const nextQuantity = getNextProductCartQuantity({
+        product,
+        currentQuantity,
+        quantity,
+      });
+
+      if (nextQuantity <= currentQuantity) {
+        return state;
+      }
 
       if (existingCartItem) {
         return {
           ...state,
           cart: state.cart.map((item) =>
             item.product.id === product.id
-              ? { ...item, quantity: item.quantity + quantity }
+              ? { ...item, quantity: nextQuantity }
               : item,
           ),
         };
@@ -50,7 +61,7 @@ export const cartReducer = createReducer(INITIAL_STATE, (builder) => {
 
       return {
         ...state,
-        cart: [...state.cart, { product, quantity }],
+        cart: [...state.cart, { product, quantity: nextQuantity }],
       };
     })
     .addCase(decrementProductInCart, (state, action) => {

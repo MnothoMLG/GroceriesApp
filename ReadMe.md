@@ -39,15 +39,23 @@ Supa Shoppa is an Expo React Native groceries app focused on browsing products, 
    npm install
    ```
 
-2. Create a `.env` file in the project root:
+2. Create a `.env` file in the project root by copying `.env.example`:
+
+   ```sh
+   cp .env.example .env
+   ```
+
+   Then confirm `.env` contains the expected API base URL:
 
    ```env
-   BASE_URL=https://your-api-host.example
+   BASE_URL=https://us-central1-tidyup-390617.cloudfunctions.net
    ```
 
    The API client expects these endpoints under `BASE_URL`:
    - `POST /productAiDetails`
    - `POST /healthCoachSuggestions`
+
+   Keep `.env` local to your machine and update `.env.example` only when the required environment variables change.
 
 3. Start Expo:
 

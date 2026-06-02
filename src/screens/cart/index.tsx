@@ -9,13 +9,14 @@ import { GenericMainStackScreenProps } from "@navigation/types";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProductToCart,
+  clearCart,
   decrementProductInCart,
   removeProductFromCart,
 } from "@store/actions";
 import { getCartItems, getCartTotal } from "@store/shop/selectors";
-import { EToastTypes, ICartItem } from "@constants/types";
+import { EToastTypes, ICartItem, IProduct } from "@constants/types";
 import { useTranslation } from "@hooks";
-import { formatPrice, showToast } from "@util";
+import { canAddProductQuantity, formatPrice, showToast } from "@util";
 import { EmptyCart } from "./components/empty";
 import { PaymentSummary } from "./components/summary";
 import { HealthCoach } from "./components/healthCoach";
@@ -49,6 +50,40 @@ const MyCart = () => {
     navigation.navigate(routes.SHOP);
   };
 
+  const checkout = () => {
+    if (!canCheckout) {
+      return;
+    }
+
+    dispatch(clearCart());
+    showToast({
+      title: t("cart.orderPlacedTitle"),
+      message: t("cart.orderPlacedMessage"),
+      type: EToastTypes.SUCCESS,
+    });
+    navigateToShop();
+  };
+
+  const notifyStockLimit = (product: IProduct) => {
+    showToast({
+      title: t("product.stockLimitTitle"),
+      message: t("product.stockLimitMessage", {
+        count: product.quantity_available ?? 0,
+        productName: product.name,
+      }),
+      type: EToastTypes.ERROR,
+    });
+  };
+
+  const addCartProduct = (product: IProduct, currentQuantity: number) => {
+    if (!canAddProductQuantity({ product, currentQuantity })) {
+      notifyStockLimit(product);
+      return;
+    }
+
+    dispatch(addProductToCart({ product }));
+  };
+
   const renderCartItem = ({
     item,
     index,
@@ -70,7 +105,7 @@ const MyCart = () => {
           setActiveRemoveProductId(showRemoveAction ? null : product.id);
         }}
         onIncrement={() => {
-          dispatch(addProductToCart({ product }));
+          addCartProduct(product, item.quantity);
         }}
         onDecrement={() => {
           dispatch(decrementProductInCart({ productId: product.id }));
@@ -123,7 +158,7 @@ const MyCart = () => {
             ItemSeparatorComponent={() => <Margin mb={16} />}
             ListFooterComponent={
               <View>
-                <HealthCoach cartItems={cartItems} />
+                {cartTotal >= 5 && <HealthCoach cartItems={cartItems} />}
 
                 <View style={styles.freeDeliveryCard}>
                   <View style={styles.freeDeliveryHeader}>
@@ -161,13 +196,7 @@ const MyCart = () => {
             <AppButton
               disabled={!canCheckout}
               activeOpacity={0.85}
-              onPress={() =>
-                showToast({
-                  title: t("cart.checkoutToastTitle"),
-                  message: t("cart.checkoutToastMessage"),
-                  type: EToastTypes.SUCCESS,
-                })
-              }
+              onPress={checkout}
               label={
                 canCheckout
                   ? t("cart.proceed")
