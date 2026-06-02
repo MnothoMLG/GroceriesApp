@@ -268,7 +268,7 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFEFA",
+    backgroundColor: colors.screenBackground,
     paddingTop: 14,
   },
   header: {
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
     minHeight: 62,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#E9ECE4",
+    borderColor: colors.softBorder,
     backgroundColor: colors.white,
     paddingHorizontal: 10,
     flexDirection: "row",
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
   searchInput: {
     height: 52,
     borderRadius: 14,
-    borderColor: "#E9ECE4",
+    borderColor: colors.softBorder,
     backgroundColor: colors.white,
   },
   categoriesWrap: {
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: "#E9ECE4",
+    borderColor: colors.softBorder,
     backgroundColor: colors.white,
     paddingHorizontal: 14,
     marginRight: 10,

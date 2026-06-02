@@ -6,6 +6,8 @@ export const colors = {
   grey70: "rgb(83, 83, 83)",
   textGrey: "#A2A2A2",
   borderGrey: "#D9D9D9",
+  softBorder: "#E9ECE4",
+  screenBackground: "#FFFEFA",
   lightBrownish: "#FFF9E9",
   success: "#57BD87",
   danger: "#ed1a1a",
